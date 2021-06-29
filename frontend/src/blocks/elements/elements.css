@@ -1,0 +1,11 @@
+.elements {
+  margin: 0 0 60px 0;
+}
+.elements__open {
+  display: flex;
+}
+@media (max-width: 768px) {
+  .elements {
+    margin: 0 0 48px 0;
+  }
+}

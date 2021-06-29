@@ -1,0 +1,18 @@
+.page {
+  margin: 0 auto;
+  padding: 45px 19px;
+  max-width: 920px;
+  background-color: #000000;
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  box-sizing: border-box;
+}
+.page_overflowed {
+  overflow: hidden;
+}

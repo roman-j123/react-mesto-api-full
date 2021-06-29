@@ -1,0 +1,10 @@
+.header__login-item_type_email {
+    margin-right: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+@media (max-width: 425px) {
+    .header__login-item_type_email {
+        margin-right: 0;
+    }
+}
