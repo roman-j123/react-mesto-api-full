@@ -35,7 +35,7 @@ class Api {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
-                'Content-Type': 'application/json'                
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(item)
         }).then(this._checkResponse())
@@ -46,7 +46,7 @@ class Api {
             headers: {
                 authorization: this._token,
                 'Content-Type': 'application/json'
-            }, 
+            },
             body: JSON.stringify(item)
         }).then(this._checkResponse())
     }
@@ -92,8 +92,8 @@ class Api {
     }
 }
 const apiConfig = {
-    address: 'https://mesto.nomoreparties.co', 
-    token: 'd8d1cc1a-fc60-4366-9dd1-cd8eb0d5a40e', 
+    address: 'http://api.nomoredomains.monster',
+    token: 'd8d1cc1a-fc60-4366-9dd1-cd8eb0d5a40e',
     groupId: 'cohort-19'
 }
 const api = new Api(apiConfig);
