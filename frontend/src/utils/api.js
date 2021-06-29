@@ -22,7 +22,7 @@ class Api {
         }).then(this._checkResponse())
     }
     getUser() {
-        return fetch(`${this._address}/v1/${this._group}/users/me`, {
+        return fetch(`${this._address}/users/me`, {
             method: 'GET',
             headers: {
                 authorization: this._token,
@@ -31,7 +31,7 @@ class Api {
         }).then(this._checkResponse())
     }
     updateUser(item) {
-        return fetch(`${this._address}/v1/${this._group}/users/me`, {
+        return fetch(`${this._address}/users/me`, {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
@@ -41,7 +41,7 @@ class Api {
         }).then(this._checkResponse())
     }
     addNewCard(item) {
-        return fetch(`${this._address}/v1/${this._group}/cards`, {
+        return fetch(`${this._address}/cards`, {
             method: 'POST',
             headers: {
                 authorization: this._token,
@@ -51,7 +51,7 @@ class Api {
         }).then(this._checkResponse())
     }
     removeCard(id) {
-        return fetch(`${this._address}/v1/${this._group}/cards/${id}`, {
+        return fetch(`${this._address}/cards/${id}`, {
             method: 'DELETE',
             headers: {
                 authorization: this._token,
@@ -60,7 +60,7 @@ class Api {
         }).then(this._checkResponse())
     }
     likeCard(id) {
-        return fetch(`${this._address}/v1/${this._group}/cards/likes/${id}`, {
+        return fetch(`${this._address}/cards/likes/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: this._token,
@@ -69,7 +69,7 @@ class Api {
         }).then(this._checkResponse())
     }
     dislikeCard(id) {
-        return fetch(`${this._address}/v1/${this._group}/cards/likes/${id}`, {
+        return fetch(`${this._address}/cards/likes/${id}`, {
             method: 'DELETE',
             headers: {
                 authorization: this._token,
@@ -81,7 +81,7 @@ class Api {
         return state ? this.likeCard(id) : this.dislikeCard(id);
     }
     updateAvatar(item) {
-        return fetch(`${this._address}/v1/${this._group}/users/me/avatar`, {
+        return fetch(`${this._address}/users/me/avatar`, {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
