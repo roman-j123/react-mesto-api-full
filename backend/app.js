@@ -13,7 +13,7 @@ const auth = require('./middlewares/auth');
 const { PORT = 3000 } = process.env;
 const app = express();
 app.all('*', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'URLs to trust of allow');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   if ('OPTIONS' == req.method) {
