@@ -13,7 +13,7 @@ class Api {
         }
     }
     getCards() {
-        return fetch(`${this._address}/v1/${this._group}/cards`, {
+        return fetch(`${this._address}/cards`, {
             method: 'GET',
             headers: {
                 authorization: this._token,
