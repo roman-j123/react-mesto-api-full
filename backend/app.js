@@ -12,19 +12,17 @@ const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'URLs to trust of allow');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if ('OPTIONS' == req.method) {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
-const options = {
-  origin: [
-    'http://localhost:3000',
-    'http://roman-j123.nomoredomains.monster/',
-    'http://api.nomoredomains.monster/',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -32,7 +30,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-app.use('*', cors(options));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

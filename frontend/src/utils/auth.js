@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.nomoredomains.monster';
+export const BASE_URL = 'https://api.nomoredomains.monster';
 
 const handleResponse = (response) => response.ok ?
   response.json() :

@@ -17,6 +17,8 @@ class Api {
             method: 'GET',
             headers: {
                 authorization: this._token,
+                'Access-Control-Request-Method': 'GET',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
                 'Content-Type': 'application/json'
             }
         }).then(this._checkResponse())
@@ -26,6 +28,7 @@ class Api {
             method: 'GET',
             headers: {
                 authorization: this._token,
+                'Access-Control-Request-Method': 'GET',
                 'Content-Type': 'application/json'
             }
         }).then(this._checkResponse())
@@ -35,6 +38,7 @@ class Api {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
+                'Access-Control-Request-Method': 'PATCH',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(item)
@@ -55,6 +59,7 @@ class Api {
             method: 'DELETE',
             headers: {
                 authorization: this._token,
+                'Access-Control-Request-Method': 'DELETE',
                 'Content-Type': 'application/json'
             }
         }).then(this._checkResponse())
@@ -64,6 +69,7 @@ class Api {
             method: 'PUT',
             headers: {
                 authorization: this._token,
+                'Access-Control-Request-Method': 'PUT',
                 'Conetent-Type': 'application/json'
             }
         }).then(this._checkResponse())
@@ -73,6 +79,7 @@ class Api {
             method: 'DELETE',
             headers: {
                 authorization: this._token,
+                'Access-Control-Request-Method': 'DELETE',
                 'Conetent-Type': 'application/json'
             }
         }).then(this._checkResponse())
@@ -85,6 +92,7 @@ class Api {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
+                'Access-Control-Request-Method': 'PATCH',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(item)
@@ -92,7 +100,7 @@ class Api {
     }
 }
 const apiConfig = {
-    address: 'http://api.nomoredomains.monster',
+    address: 'https://api.nomoredomains.monster',
     token: 'd8d1cc1a-fc60-4366-9dd1-cd8eb0d5a40e',
     groupId: 'cohort-19'
 }
