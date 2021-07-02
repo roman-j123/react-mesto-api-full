@@ -31,12 +31,17 @@ class Api {
     updateUser(item) {
         return fetch(`${this._address}/users/me`, {
             method: 'PATCH',
+            credentials: 'include',
             headers: {
                 authorization: this._token,
                 'Access-Control-Request-Method': 'PATCH',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(item)
+            body: JSON.stringify({
+                name: item.name,
+                about: item.about,
+                avatar: item.avatar
+            })
         }).then(this._checkResponse())
     }
     addNewCard(item) {
