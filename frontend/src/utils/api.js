@@ -15,12 +15,7 @@ class Api {
     getCards() {
         return fetch(`${this._address}/cards`, {
             method: 'GET',
-            headers: {
-                authorization: this._token,
-                'Access-Control-Request-Method': 'GET',
-                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-                'Content-Type': 'application/json'
-            }
+            credentials: 'include',
         }).then(this._checkResponse())
     }
     getUser() {

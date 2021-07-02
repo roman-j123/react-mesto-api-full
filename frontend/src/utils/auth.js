@@ -25,8 +25,8 @@ export const authorize = (data) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      password: data.password,
-      email: data.email
+      email: data.email,
+      password: data.password
     })
   }).then(handleResponse);
 }
