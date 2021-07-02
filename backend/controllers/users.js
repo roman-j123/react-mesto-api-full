@@ -90,7 +90,7 @@ function updateUserProfile(req, res, next) {
     })
     .then((user) => {
       console.log(`UPDATE USER ${req.user._id}`);
-      return res.send({ data: user });
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
