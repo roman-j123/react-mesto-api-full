@@ -21,8 +21,9 @@ class Api {
     getUser() {
         return fetch(`${this._address}/users/me`, {
             method: 'GET',
+            credentials: 'include',
             headers: {
-                authorization: this._token,
+                'Authorization': this._token,
                 'Access-Control-Request-Method': 'GET',
                 'Content-Type': 'application/json'
             }
@@ -33,7 +34,7 @@ class Api {
             method: 'PATCH',
             credentials: 'include',
             headers: {
-                authorization: this._token,
+                'Authorization': `Bearer ${this._token}`,
                 'Access-Control-Request-Method': 'PATCH',
                 'Content-Type': 'application/json'
             },

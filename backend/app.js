@@ -12,14 +12,7 @@ const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-app.use(cors({
-  origin: [
-    'https://roman-j123.nomoredomains.rocks',
-    'http://roman-j123.nomoredomains.rocks',
-    'http://localhost:3000',
-  ],
-  credentials: true,
-}));
+
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -29,6 +22,14 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(cors({
+  origin: [
+    'https://roman-j123.nomoredomains.rocks',
+    'http://roman-j123.nomoredomains.rocks',
+    'http://localhost:3000',
+  ],
+  credentials: true,
+}));
 
 app.use('/', indexRoutes);
 app.use('/users', auth, userRoutes);

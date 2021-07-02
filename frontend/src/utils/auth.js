@@ -21,6 +21,8 @@ export const register = (data) => {
 export const authorize = (data) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
