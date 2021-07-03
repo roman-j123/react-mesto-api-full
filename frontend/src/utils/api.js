@@ -1,7 +1,6 @@
 class Api {
-    constructor({address, token, groupId}) {
+    constructor({address, groupId}) {
         this._address = address;
-        this._token = token;
         this._group = groupId;
     }
     _checkResponse() {
@@ -23,8 +22,6 @@ class Api {
             method: 'GET',
             credentials: 'include',
             headers: {
-                'Authorization': this._token,
-                'Access-Control-Request-Method': 'GET',
                 'Content-Type': 'application/json'
             }
         }).then(this._checkResponse())
@@ -48,7 +45,6 @@ class Api {
             method: 'POST',
             credentials: 'include',
             headers: {
-                authorization: this._token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(item)
@@ -59,7 +55,6 @@ class Api {
             method: 'DELETE',
             credentials: 'include',
             headers: {
-                authorization: this._token,
                 'Access-Control-Request-Method': 'DELETE',
                 'Content-Type': 'application/json'
             }
@@ -70,7 +65,6 @@ class Api {
             method: 'PUT',
             credentials: 'include',
             headers: {
-                authorization: this._token,
                 'Access-Control-Request-Method': 'PUT',
                 'Conetent-Type': 'application/json'
             }
@@ -81,7 +75,6 @@ class Api {
             method: 'DELETE',
             credentials: 'include',
             headers: {
-                authorization: this._token,
                 'Access-Control-Request-Method': 'DELETE',
                 'Conetent-Type': 'application/json'
             }
@@ -95,7 +88,6 @@ class Api {
             method: 'PATCH',
             credentials: 'include',
             headers: {
-                authorization: this._token,
                 'Access-Control-Request-Method': 'PATCH',
                 'Content-Type': 'application/json'
             },
@@ -105,7 +97,6 @@ class Api {
 }
 const apiConfig = {
     address: 'https://api.nomoredomains.monster',
-    token: localStorage.getItem('token'),
     groupId: 'cohort-19'
 }
 const api = new Api(apiConfig);
