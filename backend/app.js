@@ -14,6 +14,7 @@ const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+app.use(cookieParser());
 app.use(cors({
   origin: [
     'https://roman-j123.nomoredomains.rocks',
@@ -22,7 +23,6 @@ app.use(cors({
   ],
   credentials: true,
 }));
-app.use(cookieParser());
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
