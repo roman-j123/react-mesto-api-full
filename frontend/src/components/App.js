@@ -20,6 +20,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoToolTip";
 
 export default function App() {
+  console.log(document.cookie);
   const [email, setEmail] = useState('');
   const [infoTooltip, setInfoTooltip] = useState({message: '', icon: '', isOpen: false});
   const [loggedIn, setLoggedIn] = useState(false);
