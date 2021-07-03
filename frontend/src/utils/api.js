@@ -34,8 +34,6 @@ class Api {
             method: 'PATCH',
             credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${this._token}`,
-                'Access-Control-Request-Method': 'PATCH',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -48,6 +46,7 @@ class Api {
     addNewCard(item) {
         return fetch(`${this._address}/cards`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 authorization: this._token,
                 'Content-Type': 'application/json'
@@ -58,6 +57,7 @@ class Api {
     removeCard(id) {
         return fetch(`${this._address}/cards/${id}`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: {
                 authorization: this._token,
                 'Access-Control-Request-Method': 'DELETE',
@@ -68,6 +68,7 @@ class Api {
     likeCard(id) {
         return fetch(`${this._address}/cards/likes/${id}`, {
             method: 'PUT',
+            credentials: 'include',
             headers: {
                 authorization: this._token,
                 'Access-Control-Request-Method': 'PUT',
@@ -78,6 +79,7 @@ class Api {
     dislikeCard(id) {
         return fetch(`${this._address}/cards/likes/${id}`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: {
                 authorization: this._token,
                 'Access-Control-Request-Method': 'DELETE',
@@ -91,6 +93,7 @@ class Api {
     updateAvatar(item) {
         return fetch(`${this._address}/users/me/avatar`, {
             method: 'PATCH',
+            credentials: 'include',
             headers: {
                 authorization: this._token,
                 'Access-Control-Request-Method': 'PATCH',
@@ -102,7 +105,7 @@ class Api {
 }
 const apiConfig = {
     address: 'https://api.nomoredomains.monster',
-    token: 'd8d1cc1a-fc60-4366-9dd1-cd8eb0d5a40e',
+    token: localStorage.getItem('token'),
     groupId: 'cohort-19'
 }
 const api = new Api(apiConfig);

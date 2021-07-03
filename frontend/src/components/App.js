@@ -49,17 +49,19 @@ export default function App() {
 
   useEffect(() => {
     tokenCheck()
-    api.getUser().then(response => {
-      setCurrentUser(response);
-    }).catch(error => {
-      console.log(`Error: ${error}`);
-    })
-    api.getCards().then(response => {
-      setCards(response);
-    }).catch(err => {
-      console.log(`Error: ${err}`)
-    });
-  },[tokenCheck])
+    if(loggedIn === true) {
+      api.getUser().then(response => {
+        setCurrentUser(response);
+      }).catch(error => {
+        console.log(`Error: ${error}`);
+      })
+      api.getCards().then(response => {
+        setCards(response);
+      }).catch(err => {
+        console.log(`Error: ${err}`)
+      });
+    }
+  },[tokenCheck, loggedIn])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -84,7 +86,7 @@ export default function App() {
   }
   function handleCardLike(card) {
     const isLiked = card.likes.some(item => item._id === currentUser._id);
-    
+
     api.changeLikeStatus(card._id, !isLiked).then(newCard => {
       const newCards = cards.map(c => c._id === card._id ? newCard : c);
       setCards(newCards);
@@ -193,24 +195,24 @@ export default function App() {
         </Route>
       </Switch>
       { loggedIn && <Footer /> }
-      <AddPlacePopup 
-        isOpen={isAddPlacePopupOpen} 
+      <AddPlacePopup
+        isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        onAddPlace={handleAddPlace} 
+        onAddPlace={handleAddPlace}
       />
-      <EditProfilePopup 
-        isOpen={isEditProfilePopupOpen} 
-        onClose={closeAllPopups} 
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
       />
-      <EditAvatarPopup 
-        isOpen={isEditAvatarPopupOpen} 
-        onClose={closeAllPopups} 
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
         onUpdateAvatar={handleUpdateAvatar}
       />
-      <ImagePopup 
-        card={selectedCard} 
-        isOpen={isOpen} 
+      <ImagePopup
+        card={selectedCard}
+        isOpen={isOpen}
         onClose={closeAllPopups}
       />
       <InfoTooltip
