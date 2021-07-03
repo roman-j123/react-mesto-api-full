@@ -20,7 +20,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoToolTip";
 
 export default function App() {
-  console.log(document.cookie);
   const [email, setEmail] = useState('');
   const [infoTooltip, setInfoTooltip] = useState({message: '', icon: '', isOpen: false});
   const [loggedIn, setLoggedIn] = useState(false);
@@ -34,9 +33,7 @@ export default function App() {
   const history = useHistory();
 
   const tokenCheck = useCallback(() => {
-    const token = localStorage.getItem('token');
-    if(token) {
-      auth.getContent(token).then(result => {
+      auth.getContent().then(result => {
         if(result) {
           setLoggedIn(true);
           setEmail(result.data.email);
@@ -45,11 +42,9 @@ export default function App() {
       }).catch(() => {
         history.push('/sign-in ')
       })
-    }
   },[history])
 
   useEffect(() => {
-    tokenCheck()
     if(loggedIn === true) {
       api.getUser().then(response => {
         setCurrentUser(response);
@@ -62,7 +57,7 @@ export default function App() {
         console.log(`Error: ${err}`)
       });
     }
-  },[tokenCheck, loggedIn])
+  },[loggedIn])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -132,14 +127,13 @@ export default function App() {
   }
 
   function handleLogin(data) {
-    return auth.authorize(data)
+    return auth
+      .authorize(data)
       .then(response => {
-        if(response.token) {
-          setLoggedIn(true)
-          setEmail(data.email)
-          localStorage.setItem('token', response.token);
-          history.push('/')
-        }
+        setLoggedIn(true)
+        setEmail(data.email)
+        history.push('/')
+
       }).catch((error)=>{
         if(error) {
           setInfoTooltip({message: 'Что-то пошло не так! Попробуйте ещё раз.', icon: `${cross}`, isOpen: true})
@@ -149,7 +143,6 @@ export default function App() {
   }
   function handleLogout(event) {
     event.preventDefault()
-    localStorage.removeItem('token');
     setEmail('');
     setLoggedIn(false);
     history.push('/sign-in')
