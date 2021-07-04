@@ -159,7 +159,7 @@ export default function App() {
         setTimeout(() => {
           history.push("./sign-in");
           closeAllPopups();
-        }, 2000);
+        }, 1500);
       }).catch(error => {
       if (error) {
         setInfoTooltip({ message: `${error}`, icon: `${cross}`, isOpen: true })
