@@ -89,8 +89,8 @@ class Api {
     }
 }
 const apiConfig = {
-    //address: 'https://api.nomoredomains.monster',
-    address: 'http://localhost:3001',
+    address: 'https://api.nomoredomains.monster',
+    //address: 'http://localhost:3001',
     groupId: 'cohort-19'
 }
 const api = new Api(apiConfig);

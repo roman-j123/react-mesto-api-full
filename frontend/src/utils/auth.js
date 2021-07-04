@@ -1,5 +1,5 @@
-//export const BASE_URL = 'https://api.nomoredomains.monster';
-export const BASE_URL = 'http://localhost:3001';
+export const BASE_URL = 'https://api.nomoredomains.monster';
+//export const BASE_URL = 'http://localhost:3001';
 
 const handleResponse = (response) => response.ok ?
   response.json() :
