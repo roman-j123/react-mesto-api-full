@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://api.nomoredomains.monster';
+//export const BASE_URL = 'https://api.nomoredomains.monster';
+export const BASE_URL = 'http://localhost:3001';
 
 const handleResponse = (response) => response.ok ?
   response.json() :
@@ -22,7 +23,6 @@ export const register = (data) => {
 export const authorize = (data) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
-    mode: 'cors',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',

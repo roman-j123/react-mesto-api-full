@@ -39,14 +39,7 @@ function getUser(req, res, next) {
     })
     .then((user) => {
       console.log(`GET USER ${user.id}`);
-      return res.send({
-        data: {
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          _id: user.id,
-        },
-      });
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -135,7 +128,11 @@ function login(req, res, next) {
   }
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' }
+      );
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import cross from '../images/cross.svg';
@@ -32,23 +32,16 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false)
   const history = useHistory();
 
-  const tokenCheck = useCallback(() => {
-      auth.getContent().then(result => {
-        if(result) {
-          setLoggedIn(true);
-          setEmail(result.data.email);
-          history.push('/');
-        }
-      }).catch(() => {
-        history.push('/sign-in ')
-      })
-  },[history])
-
   useEffect(() => {
-    if(loggedIn === true) {
-      api.getUser().then(response => {
-        setCurrentUser(response);
-      }).catch(error => {
+    if(localStorage.loggedIn === "true") {
+      setLoggedIn(true);
+      history.push('/');
+      api.getUser()
+        .then(response => {
+          setCurrentUser(response.data);
+          setEmail(response.data.email)
+      })
+        .catch(error => {
         console.log(`Error: ${error}`);
       })
       api.getCards().then(response => {
@@ -57,7 +50,7 @@ export default function App() {
         console.log(`Error: ${err}`)
       });
     }
-  },[loggedIn])
+  },[history])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -81,11 +74,13 @@ export default function App() {
     setInfoTooltip(false)
   }
   function handleCardLike(card) {
-    const isLiked = card.likes.some(item => item._id === currentUser._id);
+    const isLiked = card.likes.some(item => item === currentUser._id);
 
-    api.changeLikeStatus(card._id, !isLiked).then(newCard => {
+    api.changeLikeStatus(card._id, isLiked)
+      .then((newCard) => {
       const newCards = cards.map(c => c._id === card._id ? newCard : c);
       setCards(newCards);
+      console.log(newCards)
     }).catch(error => {
       console.log(`Error: ${error}`)
     });
@@ -110,7 +105,7 @@ export default function App() {
   }
   function handleUpdateAvatar(item) {
     api.updateAvatar(item).then(response => {
-      setCurrentUser(response)
+      setCurrentUser(response.data)
       closeAllPopups();
     }).catch(error => {
       console.log(`Error: ${error}`)
@@ -119,7 +114,7 @@ export default function App() {
   function handleAddPlace(item) {
     console.log(item);
     api.addNewCard(item).then(response => {
-      setCards([response, ...cards]);
+      setCards([...cards, response.data]);
       closeAllPopups();
     }).catch(error => {
       console.log(`Error: ${error}`);
@@ -129,12 +124,22 @@ export default function App() {
   function handleLogin(data) {
     return auth
       .authorize(data)
-      .then(response => {
-        setLoggedIn(true)
+      .then(() => {
+        localStorage.setItem("loggedIn", "true");
+        setLoggedIn(true);
         setEmail(data.email)
         history.push('/')
-
-      }).catch((error)=>{
+      })
+      .then(() => {
+        api.getUser()
+          .then(response => {
+            setCurrentUser(response.data);
+          })
+          .catch(error => {
+            console.log(`Error: ${error}`);
+          })
+      })
+      .catch((error)=>{
         if(error) {
           setInfoTooltip({message: 'Что-то пошло не так! Попробуйте ещё раз.', icon: `${cross}`, isOpen: true})
         }
@@ -144,6 +149,7 @@ export default function App() {
   function handleLogout(event) {
     event.preventDefault()
     setEmail('');
+    localStorage.setItem("loggedIn", "false");
     setLoggedIn(false);
     history.push('/sign-in')
   }
@@ -164,8 +170,8 @@ export default function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <Header
         loggedOut={handleLogout}
-        email={email}
         loggedIn={loggedIn}
+        userEmail={email}
       />
       <Switch>
           <ProtectedRoute
@@ -182,7 +188,7 @@ export default function App() {
             cards={cards}
           />
         <Route path="/sign-in">
-          <Login onLogin={handleLogin} tockenCheck={tokenCheck}/>
+          <Login onLogin={handleLogin}/>
         </Route>
         <Route path="/sign-up">
           <Register onRegister={handleRegister}/>

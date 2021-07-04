@@ -14,6 +14,7 @@ class Api {
     getCards() {
         return fetch(`${this._address}/cards`, {
             method: 'GET',
+            mode: 'cors',
             credentials: 'include',
         }).then(this._checkResponse())
     }
@@ -23,21 +24,18 @@ class Api {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
         }).then(this._checkResponse())
     }
     updateUser(item) {
         return fetch(`${this._address}/users/me`, {
             method: 'PATCH',
+            mode: 'cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                name: item.name,
-                about: item.about,
-                avatar: item.avatar
-            })
+            body: JSON.stringify(item)
         }).then(this._checkResponse())
     }
     addNewCard(item) {
@@ -60,28 +58,23 @@ class Api {
             }
         }).then(this._checkResponse())
     }
-    likeCard(id) {
-        return fetch(`${this._address}/cards/likes/${id}`, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'Access-Control-Request-Method': 'PUT',
-                'Conetent-Type': 'application/json'
-            }
-        }).then(this._checkResponse())
-    }
-    dislikeCard(id) {
-        return fetch(`${this._address}/cards/likes/${id}`, {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: {
-                'Access-Control-Request-Method': 'DELETE',
-                'Conetent-Type': 'application/json'
-            }
-        }).then(this._checkResponse())
-    }
-    changeLikeStatus(id, state) {
-        return state ? this.likeCard(id) : this.dislikeCard(id);
+    changeLikeStatus(id, isLiked) {
+        if (!isLiked) {
+            return fetch(`${this._address}/cards/${id}/likes`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+            })
+              .then(this._checkResponse())
+        } else if (isLiked) {
+            return fetch(`${this._address}/cards/${id}/likes`, {
+                method: "DELETE",
+                credentials: 'include',
+            })
+              .then(this._checkResponse())
+        }
     }
     updateAvatar(item) {
         return fetch(`${this._address}/users/me/avatar`, {
@@ -96,7 +89,8 @@ class Api {
     }
 }
 const apiConfig = {
-    address: 'https://api.nomoredomains.monster',
+    //address: 'https://api.nomoredomains.monster',
+    address: 'http://localhost:3001',
     groupId: 'cohort-19'
 }
 const api = new Api(apiConfig);

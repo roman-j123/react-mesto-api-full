@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
@@ -11,19 +10,23 @@ const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
-
-const { PORT = 3000 } = process.env;
+require('dotenv').config();
+const { PORT = 3001 } = process.env;
 const app = express();
-app.use(cookieParser());
-app.use(cors({
+const options = {
   origin: [
-    'https://roman-j123.nomoredomains.rocks',
-    'http://roman-j123.nomoredomains.rocks',
+    'https://roman-j123.nomoredomains.monster',
+    'http://roman-j123.nomoredomains.monster',
     'http://localhost:3000',
   ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
-}));
-
+};
+app.use('*', cors(options));
+app.use(cookieParser());
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -32,7 +35,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use('/', indexRoutes);
 app.use('/users', auth, userRoutes);
 app.use('/cards', auth, cardRoutes);
