@@ -17,6 +17,8 @@ const options = {
   origin: [
     'https://roman-j123.nomoredomains.monster',
     'http://roman-j123.nomoredomains.monster',
+    'https://api.nomoredomains.monster',
+    'http://api.nomoredomains.monster',
     'http://localhost:3000',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
