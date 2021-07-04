@@ -77,7 +77,7 @@ function updateUserProfile(req, res, next) {
     {
       new: true,
       runValidators: true,
-      upsert: true,
+      upsert: false,
     })
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
@@ -103,7 +103,7 @@ function updateUserAvatar(req, res, next) {
     {
       new: true,
       runValidators: true,
-      upsert: true,
+      upsert: false,
     })
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
