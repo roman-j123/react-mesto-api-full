@@ -49,7 +49,7 @@ export default function App() {
         console.log(`Error: ${error}`);
       })
     }
-  },[history])
+  },[])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -136,6 +136,13 @@ export default function App() {
           .catch(error => {
             console.log(`Error: ${error}`);
           })
+      })
+      .then(() => {
+        api.getCards()
+          .then(response => {
+            setCards(response)
+          })
+          .catch(error => console.log(error));
       })
       .catch((error)=>{
         if(error) {

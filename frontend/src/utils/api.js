@@ -14,7 +14,6 @@ class Api {
     getCards() {
         return fetch(`${this._address}/cards`, {
             method: 'GET',
-            mode: 'cors',
             credentials: 'include',
         }).then(this._checkResponse())
     }
@@ -89,8 +88,8 @@ class Api {
     }
 }
 const apiConfig = {
-    address: 'https://api.nomoredomains.monster',
-    //address: 'http://localhost:3001',
+    //address: 'https://api.nomoredomains.monster',
+    address: 'http://localhost:3001',
     groupId: 'cohort-19'
 }
 const api = new Api(apiConfig);
