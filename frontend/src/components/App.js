@@ -34,21 +34,26 @@ export default function App() {
 
   useEffect(() => {
     if(localStorage.loggedIn === "true") {
-      setLoggedIn(true);
-      history.push('/');
-      api.getUser()
-        .then(response => {
-          setCurrentUser(response.data);
-          setEmail(response.data.email)
+      api.getContent()
+        .then((item) => {
+          setLoggedIn(true);
+          history.push('/');
+        })
+        .then(() => {
+          api.getUser()
+            .then(response => {
+              setCurrentUser(response.data);
+              setEmail(response.data.email)
+            })
+            .catch(error => {console.log(`Error: ${error}`);})
       })
-        .catch(error => {
-        console.log(`Error: ${error}`);
-      })
-      api.getCards().then(response => {
-        setCards(response);
-      }).catch(err => {
-        console.log(`Error: ${err}`)
-      });
+        .then(() => {
+          api.getCards()
+            .then(response => {
+              setCards({response});
+            })
+            .catch(err => {console.log(`Error: ${err}`)});
+        })
     }
   },[history])
 
