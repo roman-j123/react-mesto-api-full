@@ -4,8 +4,9 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundError');
 const ValidationError = require('../errors/validationError');
 const AuthError = require('../errors/authError');
-const { NODE_ENV, JWT_SECRET } = process.env;
+const ConflictError = require('../errors/conflictError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
 function getAllUsers(req, res, next) {
   return User.find({})
     .then((users) => {
@@ -61,12 +62,20 @@ function createUser(req, res, next) {
     }))
     .then((user) => {
       console.log('CREATE NEW USER');
-      return res.status(201).send(user);
+      return res.status(201).send({
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+      });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         const error = new ValidationError('Переданы некорректные данные');
         next(error);
+      } else if (err.name === 'MongoError' && err.code === 11000) {
+        const error = new ConflictError('Почта уже используется');
       }
       next(err);
     });
@@ -131,7 +140,7 @@ function login(req, res, next) {
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-        { expiresIn: '7d' }
+        { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,

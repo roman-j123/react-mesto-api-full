@@ -1,5 +1,5 @@
 const winston = require('winston');
-const expressWinston = require('winston');
+const expressWinston = require('express-winston');
 
 const requestLogger = expressWinston.logger({
   transports: [
@@ -18,4 +18,4 @@ const errorLogger = expressWinston.errorLogger({
 module.exports = {
   requestLogger,
   errorLogger,
-}
+};

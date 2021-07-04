@@ -1,17 +1,20 @@
 const express = require('express');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const { errors } = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
 
 const bodyParser = require('body-parser');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const indexRoutes = require('./routes/index');
 const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/notFoundError');
 require('dotenv').config();
+
 const { PORT = 3001 } = process.env;
 const app = express();
 const options = {
@@ -52,8 +55,8 @@ app.get('/crash-test', () => {
 app.post('/signin', login);
 app.post('/signup', createUser);
 
-app.get('*', (req, res) => {
-  res.status(404).send({ message: '404. Страница не найдена' });
+app.get('*', (req, res, next) => {
+  next(new NotFoundError('Страница не найдена'));
 });
 
 app.use(errorLogger);
