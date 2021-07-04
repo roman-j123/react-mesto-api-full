@@ -1,4 +1,5 @@
 const express = require('express');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
@@ -37,6 +38,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(requestLogger);
+
 app.use('/', indexRoutes);
 app.use('/users', auth, userRoutes);
 app.use('/cards', auth, cardRoutes);
@@ -53,6 +56,7 @@ app.get('*', (req, res) => {
   res.status(404).send({ message: '404. Страница не найдена' });
 });
 
+app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
