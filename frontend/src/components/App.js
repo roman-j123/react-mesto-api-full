@@ -80,7 +80,6 @@ export default function App() {
       .then((newCard) => {
       const newCards = cards.map(c => c._id === card._id ? newCard : c);
       setCards(newCards);
-      console.log(newCards)
     }).catch(error => {
       console.log(`Error: ${error}`)
     });
@@ -156,9 +155,11 @@ export default function App() {
   function handleRegister(data) {
     return auth.register(data)
       .then(response => {
-        if(response.data) {
-          setInfoTooltip({message: 'Вы успешно зарегистрировались!', icon: `${check}`, isOpen: true})
-        }
+        setInfoTooltip({message: 'Вы успешно зарегистрировались!', icon: `${check}`, isOpen: true})
+        setTimeout(() => {
+          history.push("./sign-in");
+          closeAllPopups();
+        }, 2000);
       }).catch(error => {
       if (error) {
         setInfoTooltip({ message: `${error}`, icon: `${cross}`, isOpen: true })

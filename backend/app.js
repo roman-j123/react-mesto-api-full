@@ -41,6 +41,11 @@ app.use('/', indexRoutes);
 app.use('/users', auth, userRoutes);
 app.use('/cards', auth, cardRoutes);
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post('/signin', login);
 app.post('/signup', createUser);
 

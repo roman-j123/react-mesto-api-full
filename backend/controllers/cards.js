@@ -60,7 +60,7 @@ function submitCardLike(req, res, next) {
       throw new NotFoundError('Запрашиваемая карточка не найдена');
     })
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -81,7 +81,7 @@ function deleteLikeCard(req, res, next) {
       throw new NotFoundError('Запрашиваемая карточка не найдена');
     })
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
