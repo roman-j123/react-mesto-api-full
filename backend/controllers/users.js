@@ -76,6 +76,7 @@ function createUser(req, res, next) {
         next(error);
       } else if (err.name === 'MongoError' && err.code === 11000) {
         const error = new ConflictError('Почта уже используется');
+        next(error);
       }
       next(err);
     });
